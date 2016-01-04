@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h1><%= @mezuro_configuration.name %></h1>
+</div>
+
+<p>
+  <strong>Description:</strong>
+  <%= @mezuro_configuration.description %>
+</p>
+
+<hr>
+
+<h2> Metrics </h2>
+<% if mezuro_configuration_owner? @mezuro_configuration.id %>
+<%  options = @mezuro_configuration_metric_configurations.empty? ? {} : {exist_metric: true}%>
+  <%= link_to 'Add Metric', mezuro_configuration_choose_metric_path(@mezuro_configuration.id, options), class: 'btn btn-info' %>
+<% end %>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Metric Name</th>
+      <th>Code</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @mezuro_configuration_metric_configurations.empty? %>
+      <%= render partial: 'no_metric_configurations' %>
+    <% else %>
+      <%= render partial: 'metric_configurations', collection: @mezuro_configuration_metric_configurations, as: :metric_configuration %>      
+    <% end %>
+  </tbody>
+</table>
+
+<hr>
+
+<p>
+ <%= link_to 'Back', mezuro_configurations_path, class: 'btn btn-default' %>
+ <% if mezuro_configuration_owner? @mezuro_configuration.id %>
+   <%= link_to 'Destroy Configuration', mezuro_configuration_path(@mezuro_configuration.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+ <% end %>
+</p>

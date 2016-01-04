@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1><%= @reading_group.name %></h1>
+</div>
+
+<p>
+  <strong>Description:</strong>
+  <%= @reading_group.description %>
+</p>
+
+<hr />
+
+<h2>Readings</h2>
+
+<% if reading_groups_owner? @reading_group.id %><%= link_to 'New Reading', new_reading_group_reading_path(@reading_group,), class: 'btn btn-primary' %><% end %>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Label</th>
+      <th>Grade</th>
+      <th>Color</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% reading_group_readings = @reading_group.readings %>
+    <% if reading_group_readings.size == 0 %>
+      <%= render partial: 'no_readings' %>
+    <% else %>
+      <%= render partial: 'reading', collection: reading_group_readings, as: :reading %>      
+    <% end %>
+  </tbody>
+</table>
+
+<hr />
+
+<p>
+  <% if reading_groups_owner? @reading_group.id %>
+    <%= link_to 'Destroy Reading Group', reading_group_path(@reading_group.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+  <% end %>
+</p>
